@@ -3,6 +3,11 @@
   "description": "bicimad unnoficial api",
   "version": "0.0.1",
   "private": true,
+
+  "engines" : {
+    "node" : "0.10.24"
+  },
+
   "dependencies": {
     "express": "4.4",
     "request": "2.36.0",
