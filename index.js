@@ -23,6 +23,12 @@ redisClient.on("error", function (err) {
 
 // Only API endpoint for now
 app.get('/', function(req, res){
+
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET");
+  res.setHeader("Access-Control-Request-Method", "*");
+  res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+
   redisClient.exists('bicimad-latest', function(err, exists){
     if (exists == true){
       redisClient.get('bicimad-latest', function(err, body){
