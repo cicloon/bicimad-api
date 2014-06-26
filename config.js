@@ -11,7 +11,12 @@ module.exports = function(){
             console.log("production environment set");
             return {
               port  : process.env.PORT,
-              redis : {port: 6379, host: "127.0.0.1"}
+              redis : {
+                port: process.env.REDIS_PORT,
+                host: process.env.REDIS_HOST,
+                user: process.env.REDIS_USER,
+                pwd:  process.env.REDIS_PWD
+              }
             };
 
         default:
