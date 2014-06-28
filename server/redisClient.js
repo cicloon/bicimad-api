@@ -4,7 +4,7 @@ module.exports = function(app){
   // Redis connection setup
   var redisClient = redis.createClient(redisConf.port, redisConf.host, redisConf.options)
   if (process.env.NODE_ENV == 'production') {
-    redisClient.auth(config.redis.pwd, function(){
+    redisClient.auth(app.config.redis.pwd, function(){
       console.log('redis OK');
     })
   }
