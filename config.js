@@ -15,7 +15,8 @@ module.exports = function(){
                 port: process.env.REDIS_PORT,
                 host: process.env.REDIS_HOST,
                 user: process.env.REDIS_USER,
-                pwd:  process.env.REDIS_PWD
+                pwd:  process.env.REDIS_PWD,
+                options: {no_ready_check: true}
               }
             };
 
@@ -23,7 +24,7 @@ module.exports = function(){
             console.log("default environment set");
             return {
               port  : 3000,
-              redis : {port: 6379, host: "127.0.0.1"}
+              redis : {port: 6379, host: "127.0.0.1", options: {}}
             };
     }
 };
