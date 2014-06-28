@@ -1,13 +1,6 @@
-var express = require('express'),
-    request = require('request'),
-    config = require('./config');
+var app = require('./app');
 
-
-var app = express();
-
-app.config = config();
-app.redisClient = require('./redisClient')(app);
-
+var request = require('request');
 
 // Only API endpoint for now
 app.get('/', function(req, res){
@@ -17,10 +10,9 @@ app.get('/', function(req, res){
   res.setHeader("Access-Control-Request-Method", "*");
   res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
 
-  app.redisClient.get('bicimad-latest', function(err, body){
-    console.log(body);
+  app.redisClient.get('bicimad-latest', function(err, body){    
     if (body === null){
-      return request.get('http://5.56.56.139:16080/functions/get_all_estaciones.php', function(err, httpResponse, body){
+      return request.get(app.constants.locationsEndPoint, function(err, httpResponse, body){
         app.redisClient.set('bicimad-latest', body, 'NX', 'EX', 120);
         res.send(body);
       });
