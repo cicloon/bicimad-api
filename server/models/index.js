@@ -1,3 +1,5 @@
 module.exports = function(app){
-  bicimadPoint: require('bicimadPoint')(app)
+  return {
+    BicimadPoint: require('./bicimadPoint')(app)
+  }
 }

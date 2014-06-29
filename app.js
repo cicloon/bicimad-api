@@ -3,6 +3,8 @@ var express = require('express'),
     logger = require('morgan'),
     request = require('request'),
     mongoose = require('mongoose'),
+    underscore = require('underscore'),
+    async = require('async'),
     config = require('./config');
 
 var serverPath = function(route){
@@ -16,11 +18,13 @@ app.use(logger());
 
 app.config = config();
 
-app.redisClient = require( serverPath( 'redisClient' ))(app);
-app.bicimadFetcher = require( serverPath( 'bicimadFetcher' ))(app);
-app.models = require( serverPath( path.join('models', 'index') ) );
-
 app.modules = {};
 app.modules.mongoose = mongoose;
+app.modules._ = underscore;
+app.modules.async = async;
+
+app.redisClient = require( serverPath( 'redisClient' ))(app);
+app.bicimadFetcher = require( serverPath( 'bicimadFetcher' ))(app);
+app.models = require( serverPath( path.join('models', 'index') ) )(app);
 
 module.exports = app;
