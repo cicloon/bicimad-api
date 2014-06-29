@@ -13,6 +13,7 @@
     "request": "2.36.0",
     "redis":   "0.10.3",
     "grunt" : "0.4.2",
+    "grunt-cli": "0.1.13",
     "grunt-nodemon" : "~0.1.2",
     "nodemon": "~1.0.5",
     "matchdep" : "0.3.0",
