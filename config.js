@@ -18,7 +18,7 @@ module.exports = function(){
                 pwd:  process.env.REDIS_PWD,
                 options: {no_ready_check: true}
               },
-              mongodb: {url: 'mongodb://localhost/bicimad_api_dev'}
+              mongodb: {url: process.env.MONGOHQ_URL }
             };
 
         default:
