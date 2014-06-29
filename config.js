@@ -17,14 +17,16 @@ module.exports = function(){
                 user: process.env.REDIS_USER,
                 pwd:  process.env.REDIS_PWD,
                 options: {no_ready_check: true}
-              }
+              },
+              mongodb: {url: 'mongodb://localhost/bicimad_api_dev'}
             };
 
         default:
             console.log("default environment set");
             return {
               port  : 3000,
-              redis : {port: 6379, host: "127.0.0.1", options: {}}
+              redis : {port: 6379, host: "127.0.0.1", options: {}},
+              mongodb: {url: 'mongodb://localhost/bicimad_api_dev'}
             };
     }
 };
