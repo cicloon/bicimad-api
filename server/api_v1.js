@@ -9,6 +9,16 @@ module.exports = function(app){
     next();
   });
 
+  app.get('/api-v1/locations', function(req, res){
+    app.models.BicimadPoint.all(function(err, results){
+      if (err) { handleError(res); }
+      else{
+        res.send({locations: results});
+      }
+    });
+
+  });
+
   app.get('/api-v1/locations/nearest*', function(req, res, next){
     if (req.query.lat !== undefined && req.query.long !== undefined) {
       next();
@@ -28,12 +38,16 @@ module.exports = function(app){
 
     app.models.BicimadPoint.nearest(long, lat, distance, function(err, results) {
       if (err){
-        res.send({error: err});
+        handleError(res);
       } else {
         res.send({locations: results});
       }
     });
-
   });
+
+  var handleError = function(res){
+    res.statusCode = 500;
+    res.send({ error: 'Server error'})
+  }
 
 }

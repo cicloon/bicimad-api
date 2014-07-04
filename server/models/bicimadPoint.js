@@ -27,6 +27,16 @@ module.exports = function(app){
 
   // bicimadPointSchema.set('autoIndex', false);
 
+  bicimadPointSchema.statics.all = function(cb){
+    app.models.BicimadPoint.find().exec(function(err, results){
+      var formattedResults = _.map(results, function(res){
+        var formattedResult = BicimadPoint.apiFormat(res);
+        return formattedResult;
+      });
+      if (err) console.log(err);
+      cb(err, formattedResults);
+    })
+  };
 
   bicimadPointSchema.statics.nearest = function(long, lat, distance, cb){
     var point = { type : "Point", coordinates : [long, lat] };
@@ -35,10 +45,7 @@ module.exports = function(app){
       console.log(results);
 
       var formattedResults = _.map(results, function(res){
-        var formattedResult =  _.pick(res.obj,
-          'idestacion', 'nombre', 'numero_estacion', 'direccion', 'latitud',
-          'longitud', 'activo', 'luz', 'libres', 'porcentaje'
-        );
+        var formattedResult = BicimadPoint.apiFormat(res.obj);
         formattedResult.dis = res.dis;
         return formattedResult;
       });
@@ -48,6 +55,12 @@ module.exports = function(app){
     });
   };
 
+  bicimadPointSchema.statics.apiFormat = function(bicimadPoint){
+    return _.pick(bicimadPoint,
+      'idestacion', 'nombre', 'numero_estacion', 'direccion', 'latitud',
+      'longitud', 'activo', 'luz', 'libres', 'porcentaje'
+    );
+  }
 
   var BicimadPoint = mongoose.model('BicimadPoint', bicimadPointSchema);
 
