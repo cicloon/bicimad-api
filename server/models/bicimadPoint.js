@@ -1,5 +1,6 @@
 module.exports = function(app){
 
+  var _ = app.modules._;
   var mongoose = app.modules.mongoose;
 
   var Schema = mongoose.Schema;
@@ -21,10 +22,32 @@ module.exports = function(app){
     created_at: { type: Date, default: Date.now }
   });
 
-  bicimadPointSchema.index({ coords: '2d' });
+  bicimadPointSchema.index({ coords: '2dsphere' });
   bicimadPointSchema.index({idestacion: 1});
 
   // bicimadPointSchema.set('autoIndex', false);
+
+
+  bicimadPointSchema.statics.nearest = function(long, lat, distance, cb){
+    var point = { type : "Point", coordinates : [long, lat] };
+
+    this.geoNear(point, { maxDistance: distance / 6378137, distanceMultiplier: 6378137 , spherical : true }, function(err, results, stats) {
+      console.log(results);
+
+      var formattedResults = _.map(results, function(res){
+        var formattedResult =  _.pick(res.obj,
+          'idestacion', 'nombre', 'numero_estacion', 'direccion', 'latitud',
+          'longitud', 'activo', 'luz', 'libres', 'porcentaje'
+        );
+        formattedResult.dis = res.dis;
+        return formattedResult;
+      });
+
+      if (err) console.log(err);
+      cb(err, formattedResults);
+    });
+  };
+
 
   var BicimadPoint = mongoose.model('BicimadPoint', bicimadPointSchema);
 

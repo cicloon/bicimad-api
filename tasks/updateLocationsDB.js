@@ -13,7 +13,7 @@ module.exports = function(grunt){
     var updateOrCreateLocation = function (locationJson, cb){
       BicimadPoint.findOne({ idestacion: locationJson.idestacion }, function(err, bicimadPoint){
 
-        locationJson.coords = [ locationJson.longitud, locationJson.latitud ];
+        locationJson.coords = [ parseFloat(locationJson.longitud), parseFloat(locationJson.latitud) ];
 
         if (bicimadPoint !== null){
 

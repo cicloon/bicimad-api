@@ -15,6 +15,9 @@ app.get('/', function(req, res){
 
 });
 
+var apiV1 = require( app.serverPath('api_v1') )(app);
+
 var server = app.listen(app.config.port, function() {
-    console.log('Listening on port %d', server.address().port);
+  app.modules.mongoose.connect(app.config.mongodb.url);
+  console.log('Listening on port %d', server.address().port);
 });

@@ -19,6 +19,7 @@ app.use(logger());
 app.config = config();
 
 app.modules = {};
+mongoose.set('debug', true);
 app.modules.mongoose = mongoose;
 app.modules._ = underscore;
 app.modules.async = async;
