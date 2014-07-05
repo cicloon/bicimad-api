@@ -16,7 +16,7 @@ module.exports = function(app){
       if (body === null){
         console.log(this.endPoints);
         return request.get(this.endPoints[fetching], function(err, httpResponse, body){
-          this.redisClient.set(fetching, body, 'NX', 'EX', 120);
+          this.redisClient.set(fetching, body, 'NX', 'EX', 900);
           cb(body);
         }.bind(this));
       }
