@@ -13,8 +13,7 @@ module.exports = function(app){
   BicimadFetcher.prototype.fetch = function(fetching, cb){
 
     this.redisClient.get(fetching, function(err, body){
-      if (body === null){
-        console.log(this.endPoints);
+      if (body === null){        
         return request.get(this.endPoints[fetching], function(err, httpResponse, body){
           this.redisClient.set(fetching, body, 'NX', 'EX', 900);
           cb(body);
