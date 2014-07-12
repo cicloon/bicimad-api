@@ -11,13 +11,13 @@ module.exports = function(grunt){
     var done = this.async();
 
     var updateOrCreateLocation = function (locationJson, cb){
+      console.log('Updating locations');
       BicimadPoint.findOne({ idestacion: locationJson.idestacion }, function(err, bicimadPoint){
 
         locationJson.coords = [ parseFloat(locationJson.longitud), parseFloat(locationJson.latitud) ];
 
         if (bicimadPoint !== null){
 
-          console.log('updating location: ' + locationJson.idestacion);
           BicimadPoint.update({_id: bicimadPoint.id}, locationJson, {upsert: true}, function(err){
             if (err) console.log('unable to update location');
             cb();
@@ -25,7 +25,6 @@ module.exports = function(grunt){
 
         } else {
 
-          console.log('saving new location: ' + locationJson.idestacion);
           bicimadPoint = new BicimadPoint(locationJson);
           bicimadPoint.save(function(err){
             if (err) console.log('unable to save location');
